@@ -1,0 +1,20 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5431/postgres
+    username: postgres
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+flyway:
+  baselineOnMigrate:true
+
+executor:
+  initial-user-limit: 10000
+  reset-interval: 180000  # 3 minutes in milliseconds
