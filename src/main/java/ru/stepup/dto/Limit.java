@@ -20,6 +20,13 @@ public class Limit {
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
+    public Limit() {
+    }
+    public Limit(Long userId, BigDecimal value) {
+        this.userId = userId;
+        this.value = value;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -33,14 +40,6 @@ public class Limit {
     }
 
     public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
-    public Limit() {
-    }
-
-    public Limit(Long userId, BigDecimal value) {
-        this.userId = userId;
         this.value = value;
     }
 

@@ -17,4 +17,4 @@ flyway:
 
 executor:
   initial-user-limit: 10000
-  reset-interval: 180000  # 3 minutes in milliseconds
+  reset-interval: 180000  # 5 minutes in milliseconds

@@ -12,8 +12,11 @@ import java.math.BigDecimal;
 @RequestMapping("/limits")
 public class LimitController {
 
-    @Autowired
-    private LimitService limitService;
+    private final LimitService limitService;
+
+    public LimitController(LimitService limitService) {
+        this.limitService = limitService;
+    }
 
     @GetMapping("/limit/{userId}")
     public ResponseEntity<Limit> getLimitByUserId(@PathVariable Long userId) {
