@@ -43,15 +43,22 @@ public class LimitService {
     }
 
     public Limit restoreUserLimit(Long userId) {
+        //Нужно восстановить именно предыдущий лимит
+        //Получить последний(тнекущий) лимит для userId
         Limit limit = getLimitByUserId(userId);
+        //если лимит уже 10000, то восстанавливать не надо, вернем его
+        if (limit.getValue().compareTo(executorProperties.getInitialUserLimit())==0)
+            return new Limit(userId,executorProperties.getInitialUserLimit());
+        //удалить эту последню ззапись по лимиту, если она не равна 10,000
         limitRepository.delete(limit);
+        //а теперь надо вытащить из базы текущий лимит, где же еще его взять?
         return getLimitByUserId(userId);
     }
 
     @Scheduled(fixedRateString = "#{executorProperties.resetInterval}")
     @Transactional
     public void resetAllLimits() {
-        log.info("Resetting all limits");
+        log.debug("Resetting all limits");
         limitRepository.updateAllLimits(executorProperties.getInitialUserLimit());
     }
 }

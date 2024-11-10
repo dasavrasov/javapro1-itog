@@ -1,8 +1,6 @@
 package ru.stepup.controller;
 
 import ru.stepup.dto.Limit;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.stepup.service.LimitService;
 
@@ -19,20 +17,17 @@ public class LimitController {
     }
 
     @GetMapping("/limit/{userId}")
-    public ResponseEntity<Limit> getLimitByUserId(@PathVariable Long userId) {
-        Limit limit = limitService.getLimitByUserId(userId);
-        return ResponseEntity.ok(limit);
+    public Limit getLimitByUserId(@PathVariable Long userId) {
+        return limitService.getLimitByUserId(userId);
     }
 
     @PostMapping("/reducelimit")
-    public ResponseEntity<Limit> reduceUserLimit(@RequestParam Long userId, @RequestParam BigDecimal summa) {
-        Limit limit = limitService.reduceUserLimit(userId, summa);
-        return ResponseEntity.ok(limit);
+    public Limit reduceUserLimit(@RequestParam Long userId, @RequestParam BigDecimal summa) {
+        return limitService.reduceUserLimit(userId, summa);
     }
 
     @PostMapping("/restorelimit/{userId}")
-    public ResponseEntity<Limit> restoreUserLimit(@PathVariable Long userId) {
-        Limit limit = limitService.restoreUserLimit(userId);
-        return ResponseEntity.ok(limit);
+    public Limit restoreUserLimit(@PathVariable Long userId) {
+        return limitService.restoreUserLimit(userId);
     }
 }
