@@ -1,0 +1,54 @@
+# Получить лимит юзера с id = 1
+GET http://localhost:9000/limits/limit/1
+
+{
+    "userId": 1,
+    "value": 10000.00
+}
+
+# Платеж юзера с id = 1 на сумму 5000, уменьшить лимит на 5000
+# Каждый раз при уменьшении лимита, создаем новую запись в таблице limits c userId и value
+# getLimitByUserId возвращает последнюю запись по времени created_at
+POST http://localhost:9000/limits/reducelimit?userId=1&summa=5000
+
+{
+    "userId": 1,
+    "value": 5000.00
+}
+
+# Платеж юзера с id = 1 на сумму 15000, уменьшить лимит на 15000 - ошибка Превышен лимит
+POST http://localhost:9000/limits/reducelimit?userId=1&summa=15000
+{
+    "code": "BAD_REQUEST",
+    "message": "Сумма превышает лимит"
+}
+
+# Платеж юзера с id = 1 на сумму 2000, уменьшить лимит на 2000
+POST http://localhost:9000/limits/reducelimit?userId=1&summa=2000
+{
+    "userId": 1,
+    "value": 3000.00
+}
+
+# Платеж не прошел, надо восстановить лимит по последней оплате (на 2000)
+# Восстановить лимит юзера с id = 1 на сумму 2000
+POST http://localhost:9000/limits/restorelimit/1
+{
+    "userId": 1,
+    "value": 5000.00
+}
+
+# Прошло 3 минуты (reset-interval: 180000), отработал шедулер, все лимиты сбросились до начальных
+GET http://localhost:9000/limits/limit/1
+{
+    "userId": 1,
+    "value": 10000.00
+}
+
+# Запрос лимита по юзеру с id = 11 (такой не существует), создается новая запись с лимитом 10000 с таким userId
+GET http://localhost:9000/limits/limit/11
+{
+    "userId": 11,
+    "value": 10000.00
+}
+```
